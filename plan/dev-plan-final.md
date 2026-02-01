@@ -37,6 +37,7 @@
 | **Memory Usage** | 200-300MB per instance | 50-100MB per instance | Go* |
 
 **Performance Note:** Go wins raw speed, BUT:
+
 - Bottleneck is LLM API (5-15 seconds), not Python
 - At 500 users: Python handles load trivially
 - At 10K+ users: Migrate critical paths to Go (gradual)
@@ -44,6 +45,7 @@
 #### Qualitative Justification
 
 **Python Advantages:**
+
 1. **Rapid Iteration:** REPL testing of LLM prompts (critical for quality)
 2. **Error Recovery:** 10 hrs/week → Can't afford Go debugging time
 3. **Library Richness:** PDF parsing, DOCX generation, async file handling production-ready
@@ -51,11 +53,13 @@
 5. **Prototyping Speed:** Can test ideas in Jupyter notebooks before implementation
 
 **When to Migrate to Go:**
+
 - After $10K MRR (proven model)
 - When self-hosting LLMs (Go's memory efficiency matters)
 - When processing >1K concurrent sessions (unlikely in year 1)
 
 **Migration Path:**
+
 - Keep Python for LLM orchestration (rich ecosystem)
 - Rewrite document processing in Go (CPU-bound)
 - Use Go for API gateway (handle 10x traffic)
@@ -73,6 +77,7 @@
 | **Dev C** | Backend (Python, APIs, DB) | 2 hrs | 80% Backend, 20% Architecture |
 
 **Work Distribution Pattern:**
+
 - **Weeks 1-6:** Dev B+C focus backend, Dev A spikes UI prototypes
 - **Weeks 7-14:** Dev A leads frontend, Dev B integrates, Dev C backend APIs
 - **Weeks 15+:** All hands on product polish, testing, optimization
@@ -102,6 +107,7 @@ M4: Revenue Validation (Weeks 27-40) ░░░░░░░░░░░░░░�
 Build Python CLI tool that proves core value: Upload resume + JD → Get tailored resume that passes ATS.
 
 **Success Criteria:**
+
 - ✅ One team member uses tool to tailor real resume
 - ✅ Tailored resume scores 80+ on Jobscan (ATS test)
 - ✅ Apply to 5 jobs, get 1+ recruiter callback
@@ -114,6 +120,7 @@ Build Python CLI tool that proves core value: Upload resume + JD → Get tailore
 **Sprint Goal:** Project setup + document parsing working
 
 **Tasks:**
+
 - [ ] **Dev C (5 hrs):** Repository setup, Python environment (Poetry/UV), FastAPI skeleton
 - [ ] **Dev B (3 hrs):** PDF text extraction (PyMuPDF library), handle 10+ resume formats
 - [ ] **Dev B (2 hrs):** DOCX text extraction (python-docx), test with sample resumes
@@ -130,6 +137,7 @@ Build Python CLI tool that proves core value: Upload resume + JD → Get tailore
 **Sprint Goal:** LLM extracts structured data from resume
 
 **Tasks:**
+
 - [ ] **Dev C (4 hrs):** OpenAI API client wrapper, environment config for API keys
 - [ ] **Dev B (4 hrs):** Resume parsing prompt (extract skills, experience, education as JSON)
 - [ ] **Dev B (2 hrs):** Test with 5 real resumes, validate JSON output quality
@@ -146,6 +154,7 @@ Build Python CLI tool that proves core value: Upload resume + JD → Get tailore
 **Sprint Goal:** Extract JD requirements, compare with resume
 
 **Tasks:**
+
 - [ ] **Dev C (3 hrs):** JD parsing prompt (required skills, nice-to-haves, role level)
 - [ ] **Dev B (4 hrs):** Gap analyzer (keyword overlap, missing skills, experience match)
 - [ ] **Dev A (3 hrs):** Manual testing with 10 real JDs from LinkedIn/Indeed
@@ -162,6 +171,7 @@ Build Python CLI tool that proves core value: Upload resume + JD → Get tailore
 **Sprint Goal:** LLM rewrites resume to match JD
 
 **Tasks:**
+
 - [ ] **Dev C (5 hrs):** Tailoring prompt (rewrite bullets, inject keywords naturally, maintain truthfulness)
 - [ ] **Dev B (3 hrs):** Integrate gap analysis into tailoring context
 - [ ] **Dev B (2 hrs):** Test tailoring quality (compare before/after Jobscan scores)
@@ -178,6 +188,7 @@ Build Python CLI tool that proves core value: Upload resume + JD → Get tailore
 **Sprint Goal:** Output professional DOCX resume
 
 **Tasks:**
+
 - [ ] **Dev B (5 hrs):** DOCX generator (python-docx), ATS-friendly template (no tables, simple fonts)
 - [ ] **Dev C (3 hrs):** Formatting (headings, bullets, spacing, margins)
 - [ ] **Dev A (2 hrs):** Test DOCX opens in Word/Google Docs, validate ATS compatibility
@@ -194,6 +205,7 @@ Build Python CLI tool that proves core value: Upload resume + JD → Get tailore
 **Sprint Goal:** End-to-end CLI works, team member applies to real jobs
 
 **Tasks:**
+
 - [ ] **Dev B (4 hrs):** CLI wrapper (`python main.py --resume resume.pdf --jd jd.txt --output tailored.docx`)
 - [ ] **Dev C (2 hrs):** Error handling, logging, cost tracking (OpenAI API usage)
 - [ ] **All devs (4 hrs):** Real-world test (tailor 3 resumes, apply to jobs, track results)
@@ -208,6 +220,7 @@ Build Python CLI tool that proves core value: Upload resume + JD → Get tailore
 ### Milestone 1 Exit Criteria
 
 **Must Have:**
+
 - [ ] CLI tool tailors resume in <30 seconds (excluding LLM call)
 - [ ] Jobscan ATS score increases by 10+ points vs original
 - [ ] One team member gets recruiter callback (proves PMF signal)
@@ -226,6 +239,7 @@ Build Python CLI tool that proves core value: Upload resume + JD → Get tailore
 Build minimal web UI so 10 friends can use the tool without technical knowledge.
 
 **Success Criteria:**
+
 - ✅ Web app deployed (Railway/Render + Vercel)
 - ✅ 10 friends invited, 7+ complete tailoring successfully
 - ✅ Average session time <15 minutes
@@ -238,6 +252,7 @@ Build minimal web UI so 10 friends can use the tool without technical knowledge.
 **Sprint Goal:** FastAPI REST API for core operations
 
 **Tasks:**
+
 - [ ] **Dev C (8 hrs):** FastAPI setup, CORS, `/upload` endpoint (file upload), `/parse-resume` endpoint
 - [ ] **Dev B (8 hrs):** `/parse-jd` endpoint, `/tailor` endpoint, async processing (Celery/Background tasks)
 - [ ] **Dev A (4 hrs):** API documentation (auto-generated with FastAPI), Postman collection for testing
@@ -245,6 +260,7 @@ Build minimal web UI so 10 friends can use the tool without technical knowledge.
 **Deliverable:** API endpoints working, testable via Postman
 
 **Stories:**
+
 - User uploads resume → API returns parsed JSON
 - User submits JD → API returns tailored resume JSON
 
@@ -255,6 +271,7 @@ Build minimal web UI so 10 friends can use the tool without technical knowledge.
 **Sprint Goal:** User accounts, session persistence
 
 **Tasks:**
+
 - [ ] **Dev C (8 hrs):** SQLite database (users, sessions, resumes), SQLAlchemy ORM
 - [ ] **Dev B (6 hrs):** JWT authentication (register, login, refresh tokens)
 - [ ] **Dev A (6 hrs):** Auth endpoints testing, session storage (store resume + JD + tailored output)
@@ -262,6 +279,7 @@ Build minimal web UI so 10 friends can use the tool without technical knowledge.
 **Deliverable:** Users can register, login, create sessions
 
 **Stories:**
+
 - User registers with email/password
 - User logs in, receives JWT token
 - User's tailoring sessions saved to database
@@ -273,6 +291,7 @@ Build minimal web UI so 10 friends can use the tool without technical knowledge.
 **Sprint Goal:** Minimal UI for upload → tailor → download flow
 
 **Tasks:**
+
 - [ ] **Dev A (12 hrs):** React setup (Vite), auth pages (login/register), file upload component
 - [ ] **Dev A (4 hrs):** JD input textarea, tailoring results display (JSON → formatted preview)
 - [ ] **Dev B (4 hrs):** API integration (Axios/Fetch), loading states, error handling
@@ -280,6 +299,7 @@ Build minimal web UI so 10 friends can use the tool without technical knowledge.
 **Deliverable:** Web UI works end-to-end (local testing)
 
 **Stories:**
+
 - User uploads resume, sees parsed data
 - User pastes JD, sees gap analysis preview
 - User downloads tailored DOCX
@@ -291,6 +311,7 @@ Build minimal web UI so 10 friends can use the tool without technical knowledge.
 **Sprint Goal:** Hardcoded 2-3 clarification questions (basic version)
 
 **Tasks:**
+
 - [ ] **Dev B (5 hrs):** Hardcode 3 generic questions (e.g., "Years of experience with [skill]?", "Led team? Yes/No", "Production or learning?")
 - [ ] **Dev A (3 hrs):** Q&A UI component (radio buttons, text input)
 - [ ] **Dev C (2 hrs):** Integrate Q&A answers into tailoring prompt context
@@ -309,6 +330,7 @@ Build minimal web UI so 10 friends can use the tool without technical knowledge.
 **Sprint Goal:** Deploy to production, invite 10 friends
 
 **Tasks:**
+
 - [ ] **Dev B (4 hrs):** Deploy backend to Railway/Render, environment variables setup
 - [ ] **Dev A (3 hrs):** Deploy frontend to Vercel, connect to production API
 - [ ] **All devs (3 hrs):** Beta testing with 10 friends, collect feedback (Google Form)
@@ -316,6 +338,7 @@ Build minimal web UI so 10 friends can use the tool without technical knowledge.
 **Deliverable:** Live web app, 10 users complete at least 1 tailoring session
 
 **Success Metrics:**
+
 - 7/10 users complete flow without help
 - Average session time: 10-20 minutes
 - User feedback: "Would you use this again?" >80% yes
@@ -325,12 +348,14 @@ Build minimal web UI so 10 friends can use the tool without technical knowledge.
 ### Milestone 2 Exit Criteria
 
 **Must Have:**
+
 - [ ] Web app accessible via public URL
 - [ ] 7/10 beta users successfully tailor resume
 - [ ] No critical bugs (P0: crashes, data loss)
 - [ ] Q&A prototype validates UX flow
 
 **Key Learnings to Capture:**
+
 - Which step takes longest? (optimize in M3)
 - What confuses users? (UX improvements)
 - Do users trust AI-generated content? (show reasoning in M3)
@@ -346,6 +371,7 @@ Build minimal web UI so 10 friends can use the tool without technical knowledge.
 Launch publicly, get 100 users, validate freemium conversion, implement full Q&A feature.
 
 **Success Criteria:**
+
 - ✅ 100 registered users (organic + Product Hunt)
 - ✅ 10+ paid conversions ($15/month plan)
 - ✅ Dynamic Q&A generation (LLM-generated questions based on gaps)
@@ -359,6 +385,7 @@ Launch publicly, get 100 users, validate freemium conversion, implement full Q&A
 **Goal:** Replace hardcoded questions with LLM-generated contextual questions
 
 **Tasks:**
+
 - [ ] **Dev C (12 hrs):** Q&A generation prompt (analyze resume vs JD gaps, generate 3-5 targeted questions)
 - [ ] **Dev B (10 hrs):** Q&A orchestrator (question types: selection, text, multiselect), validation logic
 - [ ] **Dev A (10 hrs):** Q&A UI refinement (show context, progress indicator, edit previous answers)
@@ -376,6 +403,7 @@ Launch publicly, get 100 users, validate freemium conversion, implement full Q&A
 **Goal:** Stripe integration, usage limits, upgrade flow
 
 **Tasks:**
+
 - [ ] **Dev C (8 hrs):** Stripe integration (subscriptions API), webhook handling (payment success/failure)
 - [ ] **Dev B (6 hrs):** Usage tracking (3 sessions/month free tier), upgrade gate UI
 - [ ] **Dev A (6 hrs):** Pricing page, checkout flow (Stripe Checkout), billing management
@@ -392,6 +420,7 @@ Launch publicly, get 100 users, validate freemium conversion, implement full Q&A
 **Goal:** Professional UI, mobile responsive, error handling
 
 **Tasks:**
+
 - [ ] **Dev A (10 hrs):** Responsive design (mobile breakpoints), loading states, empty states
 - [ ] **Dev A (5 hrs):** Match score visualization (donut chart, breakdown by category)
 - [ ] **Dev B (5 hrs):** Error handling (user-friendly messages, retry buttons, fallback flows)
@@ -408,6 +437,7 @@ Launch publicly, get 100 users, validate freemium conversion, implement full Q&A
 **Goal:** Public landing page, SEO, Product Hunt launch
 
 **Tasks:**
+
 - [ ] **Dev A (10 hrs):** Landing page (hero, features, pricing, testimonials, CTA)
 - [ ] **Dev B (5 hrs):** SEO basics (meta tags, sitemap, robots.txt), analytics (PostHog/Plausible)
 - [ ] **All (5 hrs):** Product Hunt launch prep (screenshots, demo video, outreach to supporters)
@@ -424,6 +454,7 @@ Launch publicly, get 100 users, validate freemium conversion, implement full Q&A
 **Goal:** Track funnel, optimize conversion, fix drop-offs
 
 **Tasks:**
+
 - [ ] **Dev B (8 hrs):** Event tracking (user_registered, session_created, resume_downloaded, user_upgraded)
 - [ ] **Dev C (6 hrs):** LLM cost optimization (caching identical resumes, use GPT-4o-mini for parsing)
 - [ ] **All (6 hrs):** Analyze funnel data, A/B test pricing page ($10 vs $15), optimize slow steps
@@ -438,6 +469,7 @@ Launch publicly, get 100 users, validate freemium conversion, implement full Q&A
 ### Milestone 3 Exit Criteria
 
 **Must Have:**
+
 - [ ] 100 registered users
 - [ ] 10+ paid users ($150+ MRR)
 - [ ] Dynamic Q&A increases match score by 5+ points vs M2 hardcoded version
@@ -457,6 +489,7 @@ Launch publicly, get 100 users, validate freemium conversion, implement full Q&A
 Prove business model works: Reach $1K MRR (70 paid users), optimize costs, prepare for scale.
 
 **Success Criteria:**
+
 - ✅ $1K MRR (70 paid users @ $15/month)
 - ✅ CAC <$25 (organic SEO driving 60%+ signups)
 - ✅ LTV >$120 (8+ month retention)
@@ -470,6 +503,7 @@ Prove business model works: Reach $1K MRR (70 paid users), optimize costs, prepa
 **Goal:** Publish 10 SEO articles targeting job-specific resume keywords
 
 **Tasks:**
+
 - [ ] **Dev A (20 hrs):** SEO research (target keywords: "software engineer resume", "product manager resume ATS", etc.)
 - [ ] **Dev B (20 hrs):** Write 10 articles (1,500+ words each, include examples, tool CTA at end)
 - [ ] **Dev A (10 hrs):** On-page SEO (internal linking, meta descriptions, images, schema markup)
@@ -478,6 +512,7 @@ Prove business model works: Reach $1K MRR (70 paid users), optimize costs, prepa
 **Deliverable:** 10 articles live, indexed by Google, driving 50+ organic visitors/month by week 32
 
 **Content Calendar:**
+
 1. "How to Tailor Your Resume to a Job Description (2026 Guide)"
 2. "Software Engineer Resume Keywords That Pass ATS"
 3. "Product Manager Resume: ATS Optimization Guide"
@@ -499,6 +534,7 @@ Prove business model works: Reach $1K MRR (70 paid users), optimize costs, prepa
 **Goal:** Built-in viral loop (refer friends, get free month)
 
 **Tasks:**
+
 - [ ] **Dev B (10 hrs):** Referral code generation, tracking (referrer_id in database)
 - [ ] **Dev A (6 hrs):** Referral UI (share link, show referral count, reward status)
 - [ ] **Dev C (4 hrs):** Reward logic (give 1 month Pro free for each successful referral)
@@ -515,6 +551,7 @@ Prove business model works: Reach $1K MRR (70 paid users), optimize costs, prepa
 **Goal:** Handle 100 concurrent users, reduce latency
 
 **Tasks:**
+
 - [ ] **Dev C (10 hrs):** Database optimization (indexes on user_id, session_id, created_at)
 - [ ] **Dev B (6 hrs):** API response caching (Redis for repeated resume parses)
 - [ ] **Dev C (4 hrs):** LLM caching (cache identical JD parses, reduce OpenAI calls by 30%)
@@ -531,6 +568,7 @@ Prove business model works: Reach $1K MRR (70 paid users), optimize costs, prepa
 **Goal:** Reduce churn, increase session frequency
 
 **Tasks:**
+
 - [ ] **Dev A (10 hrs):** Session history page (view past tailored resumes, re-download)
 - [ ] **Dev B (6 hrs):** Email notifications (resume ready, monthly usage summary, tips)
 - [ ] **Dev A (4 hrs):** In-app tips (e.g., "Tailor for multiple jobs to increase callback rate")
@@ -547,6 +585,7 @@ Prove business model works: Reach $1K MRR (70 paid users), optimize costs, prepa
 **Goal:** Internal dashboard to track MRR, CAC, LTV, churn
 
 **Tasks:**
+
 - [ ] **Dev B (12 hrs):** Admin dashboard (Retool or custom React page), key metrics visualization
 - [ ] **Dev C (5 hrs):** Data exports (user list, revenue report, cohort analysis)
 - [ ] **All (3 hrs):** Weekly review of metrics, identify churn reasons (interview churned users)
@@ -561,6 +600,7 @@ Prove business model works: Reach $1K MRR (70 paid users), optimize costs, prepa
 ### Milestone 4 Exit Criteria
 
 **Must Have:**
+
 - [ ] $1K MRR (70 paid users)
 - [ ] CAC <$25 (proven organic channel)
 - [ ] Churn <8% (healthy retention)
@@ -627,6 +667,7 @@ Prove business model works: Reach $1K MRR (70 paid users), optimize costs, prepa
 4. **Hours spent** (actual vs planned)
 
 **Example:**
+
 ```
 Dev B - Week 7 Update
 
@@ -653,18 +694,23 @@ Dev B - Week 7 Update
 **After each milestone, fill out:**
 
 ### What Went Well
+
 - [Specific wins, metrics achieved]
 
 ### What Went Wrong
+
 - [Problems encountered, metrics missed]
 
 ### Key Learnings
+
 - [Insights to apply to next milestone]
 
 ### Scope Adjustments
+
 - [Features to cut/add for next milestone]
 
 ### Go/No-Go Decision
+
 - [ ] Continue to next milestone
 - [ ] Pivot (describe)
 - [ ] Kill project (justify)
@@ -674,6 +720,7 @@ Dev B - Week 7 Update
 ## Appendix: Tech Stack Details
 
 ### Backend
+
 - **Language:** Python 3.11+
 - **Framework:** FastAPI (async, auto docs, validation)
 - **Database:** PostgreSQL 15+ (Supabase free tier or Railway)
@@ -683,13 +730,15 @@ Dev B - Week 7 Update
 - **File Storage:** Local filesystem (migrate to S3 in M4 if needed)
 
 ### AI/LLM
+
 - **Provider:** OpenAI API
-- **Models:** 
+- **Models:**
   - GPT-4o-mini for parsing (cheaper, faster)
   - GPT-4o for tailoring (higher quality)
 - **Libraries:** openai SDK, langchain (optional, for prompt management)
 
 ### Frontend
+
 - **Framework:** React 18+ with TypeScript
 - **Build Tool:** Vite
 - **State Management:** TanStack Query (React Query)
@@ -697,6 +746,7 @@ Dev B - Week 7 Update
 - **Routing:** React Router v6
 
 ### DevOps
+
 - **Backend Hosting:** Railway or Render (free tier → $7/month)
 - **Frontend Hosting:** Vercel (free tier)
 - **Database:** Railway Postgres or Supabase (free tier)
@@ -704,6 +754,7 @@ Dev B - Week 7 Update
 - **CI/CD:** GitHub Actions (deploy on push to main)
 
 ### Development Tools
+
 - **Package Manager:** Poetry (Python) or UV (faster)
 - **Code Quality:** Black (formatting), Ruff (linting), mypy (type checking)
 - **Testing:** pytest, pytest-asyncio
@@ -759,7 +810,8 @@ npm test
 ## Document Status
 
 **Status:** ✅ Ready for Development Kickoff  
-**Next Steps:** 
+**Next Steps:**
+
 1. Dev team reviews plan (async, 2 days)
 2. Kick-off meeting (30 min, align on M1 goals)
 3. Week 1 Sprint starts Monday
