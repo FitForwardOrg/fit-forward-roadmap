@@ -11,7 +11,7 @@
 
 **Mission:** Build AI-powered resume tailoring SaaS that helps job seekers pass ATS screening and get recruiter callbacks.
 
-**Core Constraint:** 10 hours/week → Ruthless scope prioritization, validate before building.
+**Core Constraint:** 10 hours/week
 
 **Success Definition:** $1K MRR within 10 months (proving model works before scaling).
 
